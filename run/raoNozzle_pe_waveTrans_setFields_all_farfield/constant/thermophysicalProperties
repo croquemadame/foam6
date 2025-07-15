@@ -1,0 +1,70 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  6
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      thermophysicalProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+thermoType
+{
+    type            hePsiThermo;
+    mixture         pureMixture;
+    transport       sutherland;//const;
+    thermo          janaf;//hConst;
+    equationOfState perfectGas;
+    specie          specie;
+    energy          sensibleInternalEnergy;
+}
+
+mixture
+{
+    specie
+    {
+        molWeight       2.016;
+    }
+    thermodynamics
+    {
+        //Cp              18036.21;
+        Hf              0;
+
+        Tlow    15;//50;//100; // Artificially lowered to see if I can get past transient.
+        Thigh   6000;
+        Tcommon 1665;
+        highCpCoeffs  (2.48478409e+00 1.37779598e-03 -3.82936722e-07 5.81285400e-11 -3.45198847e-15 4.72869328e+02  1.64404449e+00);
+        lowCpCoeffs   (3.17346042e+00 1.51620690e-03 -2.54068529e-06 1.98385826e-09 -5.01298007e-13 3.12873787e+01 -2.72092667e+00);
+
+/*
+        Tlow    25;
+        Thigh   6000;
+        Tcommon 61;
+        highCpCoeffs  (3.36253090e+00  1.85007732e-04  1.71848030e-07 -4.82647199e-11  3.74724565e-15 1.72475540e+01 -3.49276810e+00);
+        lowCpCoeffs   (3.47010088e+00 -7.96767941e-04 -6.25935474e-07  6.48801210e-11 -1.46947145e-13 9.85566788e+00 -2.06966171e+00);
+*/      
+
+/* 
+Fit based on data from https://janaf.nist.gov/tables/H-050.html and code from 
+https://github.com/Raphael-Boichot/JANAF-thermochemical-tables-to-NASA-Glenn-coefficients-converter
+*/
+
+    }
+    transport
+    {
+        //mu              0;
+        Pr              0.7;
+        Ts              96.67;   // https://www.cfd-online.com/Forums/openfoam-pre-processing/62117-sutherland-transport-coefficients.html#post207443
+        As              6.89e-7; // https://www.cfd-online.com/Forums/openfoam-pre-processing/62117-sutherland-transport-coefficients.html#post207443
+                                 // Also, Frank M. White - Viscous Fluid Flow 4ed. Table 1-1 (2021)
+    }
+}
+
+// ************************************************************************* //

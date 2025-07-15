@@ -1,0 +1,13 @@
+EXE_INC = \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/meshTools/lnInclude \
+    -Iexpressions/PatchFunctions1 \
+    -Iexpressions/base \
+    -Iexpressions/fields \
+    -Iexpressions/patch \
+    -Iexpressions/volume 
+
+EXE_LIBS = \
+    -lfiniteVolume \
+    -lmeshTools \
+    -lgenericPatchFields

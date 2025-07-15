@@ -1,0 +1,8 @@
+p0  1013250;
+T0  2750;
+R   4157;
+gamma  1.4;
+L   910.6937e-3;
+re  274.628e-3;
+Ta  244.1212; //http://www.braeunig.us/space/atmos.htm Mean Solar Activity - 60 km
+pa  23.2;     //http://www.braeunig.us/space/atmos.htm Mean Solar Activity - 60 km

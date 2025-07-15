@@ -1,0 +1,49 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  6
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];
+
+#include "../constant/initialConditionsTemplate"
+
+internalField   uniform $pa;
+
+boundaryField
+{
+    nozzleWall
+    {
+        type            zeroGradient;
+    }
+    "(farfieldInlet|farfieldOutlet|farfieldTop)"
+    {
+        type            waveTransmissive;
+        gamma           $gamma;
+    }
+    inlet
+    {
+        type            totalPressure;
+        rho             rho;
+        psi             thermo:psi;
+        gamma           $gamma;
+        p0              uniform $p0;
+        value           $p0;
+    }
+    "(wedge1|wedge2)"
+    {
+        type            wedge;
+    }
+}
+
+// ************************************************************************* //
